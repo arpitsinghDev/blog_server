@@ -1,7 +1,7 @@
-const express = require('express');
-const Post = require('../models/Post');
-const router = express.Router();
 
+import { Router } from 'express';
+import Post from '../models/Post.js';
+const router = Router();
 // Create a new post
 router.post('/', async (req, res) => {
   try {
@@ -60,4 +60,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

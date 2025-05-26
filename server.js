@@ -1,22 +1,17 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-const postsRoute = require('./routes/posts');
+import express, { json } from 'express';
+import { connect } from 'mongoose';
+import { config } from 'dotenv';
+import postsRoute from './routes/posts.js';
 
-dotenv.config();
+config();
 const app = express();
 
-app.use(express.json());
+app.use(json());
 app.use('/api/posts', postsRoute);
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
-  console.log('Connected to MongoDB');
-  app.listen(process.env.PORT, () => {
-    console.log(`Server running on port ${process.env.PORT}`);
-  });
-}).catch(err => {
-  console.error('Connection error', err);
-});
+try {
+    await connect(process.env.MONGO_URI, {});
+    console.log('Database connected successfully');
+} catch(error) {
+    console.log("error while connecting to database",error);
+}
